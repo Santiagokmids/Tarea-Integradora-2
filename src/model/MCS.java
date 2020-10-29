@@ -77,10 +77,44 @@ public class MCS{
 	    return message;
 	}
 
+	//Create Playlist Private
 	public String createPlay(String name,String nameUser){
-
+		String message = "La palylist ya existe";
+		boolean exit = true;
+		if ((findPlay(name)){  
+	    	for(int i = 0;i<playList.length && exit;i++){
+	    		if (playList[i] == null){
+	    			playList[i] = new Private(name,nameUser);
+	    			exit = false;
+	    			message = "La palylist ha sido creada correctamente";
+	    		}
+	    		else if(i == MAX_PLAYLIST){
+	    			message = "No tiene espacio para crear mas playList";
+	    		}
+	     	}
+	    }
+	    return message;
 	}
 
+	//Create restricted playlist
+	public String createPlay(String name,String userRes[]){
+		String message = "La palylist ya existe";
+		boolean exit = true;
+		if ((findPlay(name)){  
+	    	for(int i = 0;i<playList.length && exit;i++){
+	    		if (playList[i] == null){
+	    			playList[i] = new RestriPlay(name,userRes);
+	    			exit = false;
+	    			message = "La palylist ha sido creada correctamente";
+	    		}
+	    		else if(i == MAX_PLAYLIST){
+	    			message = "No tiene espacio para crear mas playList";
+	    		}
+	     	}
+	    }
+	    return message;
+	}
+	
 	public String findUser(String userName){
 		boolean find = true;
 	    	for(int i=0;i<user.length && find;i++){
@@ -131,7 +165,7 @@ public class MCS{
 		boolean exit = true;
 		for(int i = 0; i<songsPool.length || exit,i++){
 			if(songsPool[i] != null){
-			    message +="  **************  Song **************\n  **  Title: "+songsPool[i].getTitle()"\n**  Artist: "+songsPool[i].getArtistName()"\n  **  Duration: "songsPool[i].[0]getDuration()+songsPool[i].[1]getDuration()"\n  **  Genre: "+songsPool[i].getGenre()"\n  ***********************************\n";
+			    message +="  **************  Song **************\n  **  Title: "+songsPool[i].getTitle()"\n**  Artist: "+songsPool[i].getArtistName()"\n  **  Duration: "songsPool[i].[0]getDuration()+":"+songsPool[i].[1]getDuration()"\n  **  Genre: "+songsPool[i].getGenre()"\n  ***********************************\n";
 				exit = false;       
 			}
 			return message;	       

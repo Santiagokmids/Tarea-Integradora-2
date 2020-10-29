@@ -5,8 +5,12 @@ public class Private extends PLAYLIST{
 	//Relationships
 	private USER userPrivate;
 
-	public Private(USER userPrivate, String name){
+	public Private(String name,USER userPrivate){
 		super(name);
 		this.userPrivate = userPrivate;
+	}
+
+	public String getUserPrivate(){
+		return userPrivate;
 	}
 }

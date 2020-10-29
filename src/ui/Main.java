@@ -75,7 +75,7 @@ public class Main {
 	   	 for(int l = 0;!stop;l++){
 	   	 	 System.out.println("");
 	   	     System.out.println("------------------------------------------------------");
-             System.out.println(" * QUE DESEA HACER? *");	   	
+             System.out.println("      * QUE DESEA HACER? *");	   	
              System.out.println("------------------------------------------------------");
 	         System.out.println("");
 	         System.out.println("************************************************************************");
@@ -117,9 +117,26 @@ public class Main {
 
          	case 5:
          	     System.out.println("** Crear PlayList **");
-         	     
+         	     int opt = menuPlaylist();
+         	     createPlaylist(opt);
          	    break;
 
+         	case 6:
+         	     System.out.println("** Agregar cancion del pool al PlayList **");
+         	     //Falta crear el metodo para agregar canciones al Playlist
+         	    break;
+
+			case 7:
+         		 System.out.println("** Mostrar Playlist existentes **");
+         		 String show3 = musicCS.showPlay();
+         	     System.out.println(show3);
+         	    break;
+
+         	case 8:
+         		 stop = true;
+         	     System.out.println("GRACIAS POR SU UTILIZAR MCS :D");
+         	    break;
+    
             default: 
                 System.out.println("Ingreso un numero NO valido");
             }
@@ -182,14 +199,82 @@ public class Main {
 		System.out.println("Cual es el genero de "+title"?");
 		System.out.println("[1] ROCK\n[2]HIP HOP\n[3] MUSICA CLASICA\n[4] REGGAE\n[5] SALSA\n[6] METAL");
 		int opt = lector.nextInt();
+		lector.nextLine();
 		if(opt => 1 && opt <= 6){
 			musicCS.addSong(title,artistName,releaseData,duration,musicCS.genreSong(opt));
 		}
     }
 
-    public static void createPlaylist(){
-    	
+    public static int menuPlaylist(){
+    	System.out.println("Que tipo de PlayList quiere crear?");
+    	boolean exit = true;
+	    for (int i = 0;exit;i++){
+	    	System.out.println("------------------------------------");
+	    	System.out.println("[1] PlayList Publica");
+	    	System.out.println("[2] PlayList Restringida");
+	    	System.out.println("[3] PlayList Privada");
+	    	System.out.println("------------------------------------");
+	    	int opt = lector.nextInt();
+	    	lector.nextLine();
+	    	if(opt > 3){
+	    		System.out.println("Ingreso un numero INVALIDO");
+	    	}
+	    	else
+	    		exit = false;
+	    }
+    	return opt;
     }
+
+    public static void createPlaylist(int option){
+    	String namePlay ="",nameUser = "";
+    	namesUser = new String [5];
+    	if(option == 1){
+    		System.out.println("Introduzca el nombre de la PlayList");
+    		namePlay = lector.nextLine();
+    			musicCS.createPlay(namePlay);
+	    	}
+    	else if(option == 2){
+    		System.out.println("Introduzca el nombre de la PlayList");
+    		namePlay = lector.nextLine();
+    		System.out.println("Introduzca el nombre de los usuarios que pueden acceder a "+namePlay);
+    		for(int i = 0;i<5;i++){
+    			nameUser = lector.nextLine();
+    			if(!musicCS.findSpaces(nameUser)){
+    				if(!musicCS.findUser(namesUser)){
+    					namesUser[i] = nameUser;
+    				}
+    				else{
+    					System.out.println("El usuario no ha sido creado");
+    					i--;
+    				}
+    		    }
+    		    else {
+	    			System.out.println("Ingreso un nombre NO valido, tiene espacios");
+	    			i--;
+    		    }
+    		}
+    		musicCS.createPlay(namePlay,namesUser);
+    	}
+    	else if(option == 3){
+    		System.out.println("Introduzca el nombre de la PlayList");
+    		namePlay = lector.nextLine();
+    		System.out.println("Introduzca el nombre del usuario al cual pertenece el PlayList");
+    		nameUser = lector.nextLine();
+    		boolean wait = true;
+    		for(int k = 0;wait;k++){
+    			nameUser = lector.nextLine();
+    			if(!musicCS.findSpaces(nameUser)){
+    				if(!musicCS.findUser(namesUser)){
+    					musicCS.createPlay(namePlay,nameUser);
+    					wait = false;
+    				}
+    				else
+    					System.out.println("El usuario no ha sido creado");
+    		    }
+    		    else 
+	    			System.out.println("Ingreso un nombre NO valido, tiene espacios");
+    		}
+    	}
 
 
 
