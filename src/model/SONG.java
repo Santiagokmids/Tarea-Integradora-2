@@ -39,12 +39,10 @@ public class SONG{
 	}
 
 	public int[]getDuration(){
-		for(int i = 0;i<2;i++){
-		return duration[i];
-	    }
+		return duration;
 	}
 
-	public void setDuration(int duration){
+	public void setDuration(int duration[]){
 		this.duration = duration;
 	}
 

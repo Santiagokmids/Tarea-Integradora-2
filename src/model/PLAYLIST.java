@@ -12,13 +12,13 @@ public class PLAYLIST{
 	//Atributes
 	private String name;
 	private Genre[]genre;
-	private int duration;
+	private int duration[3];
 
 	//Methods
 	public PLAYLIST(String name){
 		this.name = name;
 		this.genre = Genre.DESCONOCIDO;
-		this.duration = 0;
+		this.duration = [0,0,0];
 		this.songs = new SONG[50];
 		genre = new Genre[7];
 	}
@@ -31,7 +31,7 @@ public class PLAYLIST{
 		this.name = name;
 	}
 
-	public SONG getSongs(){
+	public SONG []getSongs(){
 		return songs;
 	}
 
@@ -39,7 +39,7 @@ public class PLAYLIST{
 		this.songs = songs;
 	}
 
-	public int getDuration(){
+	public int[] getDuration(){
 		return duration;
 	}
 
