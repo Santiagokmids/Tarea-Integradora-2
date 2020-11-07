@@ -6,6 +6,7 @@ public class MCS{
 	public final static int MAX_USERS = 10;
 	public final static int MAX_PLAYLIST = 20;
 	public final static int MAX_SONGS = 50;
+	public final static int MAX_GENRE = 7;
 
 	//Relationships
 	private PLAYLIST[] playList;
@@ -23,10 +24,10 @@ public class MCS{
 		this.numUsers = numUsers;
 		this.numSongs = numSongs;
 		this.amountPlayl = amountPlayl;
-		playList = new PLAYLIST[20];
-		genre = new Genre[7];
-		songsPool = new SONG[50];
-		user = new USERS[10];
+		playList = new PLAYLIST[MAX_PLAYLIST];
+		genre = new Genre[MAX_GENRE];
+		songsPool = new SONG[MAX_SONGS];
+		user = new USERS[MAX_USERS];
 	}
 
 	public String createUser(String name, String password, int age){
@@ -182,7 +183,11 @@ public class MCS{
 		boolean exit = true;
 		for(int i = 0; i<user.length || exit,i++){
 			if(user[i] != null){
-			    message +="  *************  User **************\n **  UserName: "+user[i].getUserName()+" \n  **  Age: "+user[i].getAge()+"\n **  Category: "+user[i].getCategory()+"\n ***********************************\n";       
+			    message +="  *************  User **************"+
+			    "\n  **  UserName: "+user[i].getUserName()+
+			    "\n  **  Age: "+user[i].getAge()+
+			    "\n  **  Category: "+user[i].getCategory()+
+			    "\n ***********************************\n";       
 			}
 			else {
 				message="No hay mas usuarios";
@@ -197,7 +202,12 @@ public class MCS{
 		boolean exit = true;
 		for(int i = 0; i<songsPool.length || exit,i++){
 			if(songsPool[i] != null){
-			    message +="  **************  Song **************\n  **  Title: "+songsPool[i].getTitle()"\n**  Artist: "+songsPool[i].getArtistName()"\n  **  Duration: "songsPool[i].[0]getDuration()+":"+songsPool[i].[1]getDuration()"\n  **  Genre: "+songsPool[i].getGenre()"\n  ***********************************\n";
+			    message +="  **************  Song **************"+  
+			    "\n  **  Title: "+songsPool[i].getTitle()+
+			    "\n  **  Artist: "+songsPool[i].getArtistName()+
+			    "\n  **  Duration: "+songsPool[i].[0]getDuration()+":"+songsPool[i].[1]getDuration()+
+			    "\n  **  Genre: "+songsPool[i].getGenre()+
+			    "\n  ***********************************\n";
 				exit = false;       
 			}
 			return message;	       
@@ -208,12 +218,41 @@ public class MCS{
 		String message = "";
 		boolean exit = true;
 		for(int i = 0; i<playList.length || exit,i++){
-			if(playList[i] != null && playList[i].[i]getGenre() != null){
-				        message += "  **************  Playlist **************\n**  Title: "playList[i].getName()"\n**  Duration: "+playList[i].getDuration()[0]+":"+playList[i].getDuration()[1]+":"+playList[i].getDuration()[2]+"\n  **  Genre: "+playList[i].[i]getGenre(); 
-				exit = false;       
+			if(playList[i] != null && playlist[i] instanceof PublicPlay){
+				for(int k = 0;k<MAX_GENRE;k++){
+					message += "**************  Playlist **************"+
+					"\n  **  Title: "+playList[i].getName()+
+					"\n  **  Duration: "+durationPlay()+
+					"\n  **  Genre: "+playList[i].getGenre()[k]+"\n";       
+				}
+				exit = false; 
 			}
-			return message;	       
+
+			else if(playList[i] != null && playlist[i] instanceof RestriPlay){
+				RestriPlay objRest = (RestriPlay)playList[i];
+				for(int o = 0;o<MAX_GENRE;o++){
+					for(int l = 0; l<5 ;l++){
+						message += "**************  Playlist **************"+
+						"\n  **  Title: "+playList[i].getName()+
+						"\n  **  Duration: "+durationPlay()+
+						"\n  **  Genre: "+playList[i].getGenre()[o]+
+						"\n  **  Allowed users: "+objRest.getUserRes()[l]"\n";
+					}
+				}
+			}
+
+			else if(playList[i] != null && playlist[i] instanceof Private){
+				Private objPri = (Private)playList[i];
+				for(int p = 0;p<MAX_GENRE;p++){
+						message += "**************  Playlist **************"+
+						"\n  **  Title: "+playList[i].getName()+
+						"\n  **  Duration: "+durationPlay()+
+						"\n  **  Genre: "+playList[i].getGenre()[p]+
+						"\n  **  Allowed user: "+objPri.getUserPrivate()"\n";
+				}
+			}      
 		}
+	   return message;	
 	}
 
 	public getNumUsers(){
@@ -240,8 +279,9 @@ public class MCS{
     			message = "Fecha correcta!!";
     		}
     	}
-    	else 
+    	else {
     		message = "Fecha incorrecta";
+    	}
 
     	return message;
     }
@@ -351,7 +391,7 @@ public class MCS{
 		return stop;			
     }
 
-    public int[] durationPlay(){
+    public String durationPlay(){
     	duration = SONG [50];
     	min = int [50];
     	seg = int [50];
@@ -371,5 +411,11 @@ public class MCS{
     			int segunds += seg[o];
     		}
     	}
-    }//Pasar estos valores a la duracion de la playlist
+    	minuts += segunds/60;
+    	int hours += minuts/60;
+    	minuts = minuts%60;
+    	segunds = segunds%60;
+    	String message = hours+":"+minuts+":"+segunds;
+    	return message;
+    }
 }
