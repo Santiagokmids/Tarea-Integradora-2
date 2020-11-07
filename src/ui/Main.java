@@ -101,8 +101,9 @@ public class Main {
 
          	case 2:
          		System.out.println("** Mostrar los usuarios agregados **");
-         	    	String show = musicCS.showUsers();
-         	    	System.out.println(show);
+         		System.out.println("");
+         	    String show = musicCS.showUsers();
+         	    System.out.println(show);
          	    break;
 
          	case 3:
@@ -112,6 +113,7 @@ public class Main {
 
          	case 4:
          	     System.out.println("** Mostrar canciones que hay en el pool de canciones **");
+         	     System.out.println("");
          	     String show2 = musicCS.showSongs();
          	     System.out.println(show2);
          	    break;
@@ -124,17 +126,20 @@ public class Main {
 
          	case 6:
          	     System.out.println("** Agregar cancion del pool a la PlayList **");
+         	     System.out.println("");
          	     addSongPlay();
          	    break;
 
 			case 7:
          		 System.out.println("** Mostrar Playlist existentes **");
+         		 System.out.println("");
          		 String show3 = musicCS.showPlay();
          	     System.out.println(show3);
          	    break;
 
          	case 8:
          	     System.out.println("** Calificar Playlist **");
+         	     System.out.println("");
          	     putCalification();
          	    break;    
 
@@ -171,12 +176,25 @@ public class Main {
 
     public void createSong(){
     	System.out.println("");
-    	System.out.println("Introduzca el titulo de la cancion");
-    	String title = lector.nextLine();
-
     	int[] releaseData = new int[3]; 
     	int[] duration = new int[2];
-    	boolean stop = true;
+    	int[] count = new int[10];
+    	boolean stop = true, wait = true;
+    	for(int o = 0;o<musicCS.MAX_USERS && wait;o++){
+    		System.out.println("Ingrese el nombre del usuario que ingresara la cancion");
+			String nameUser = lector.nextLine();
+		    if(musicCS.findUser(nameUser)){
+			    System.out.println("El usuario NO existe");
+			}
+			else{
+				musicCS.contSongs(nameUser);
+				musicCS.addCategory();
+				wait = false;
+			}
+    	}
+
+    	System.out.println("Introduzca el titulo de la cancion");
+    	String title = lector.nextLine();
 
     	System.out.println("Introduzca el artista o banda que interpreta "+title);
     	String artistName = lector.nextLine();
@@ -200,26 +218,27 @@ public class Main {
     	}
     	System.out.println("Introduzca solo los minutos de duracion de "+title);
 	    duration[0] = lector.nextInt();
-	    System.out.println("Introduzca solo los segundos de duracion de "+title);
-	    duration[1] = lector.nextInt();
-	    lector.nextLine();
-	    boolean exit = true,wait = true;
+	    boolean exit = true,getOut = true;
 	    for (int i = 0;exit;i++){
+	    	System.out.println("Introduzca solo los segundos de duracion de "+title);
+	    	duration[1] = lector.nextInt();
+	    	lector.nextLine();
 	   		if(duration[1] < 60){
 	   			exit = false;
 	   		}
 	   		else 
 	   			System.out.println("Los Segundos son menos de 60");
 		}
-		for(int k = 0;wait;k++){
+		for(int k = 0;getOut;k++){
 			System.out.println("Cual es el genero de "+title+"?");
 			System.out.println("[1] ROCK\n[2] HIP HOP\n[3] MUSICA CLASICA\n[4] REGGAE\n[5] SALSA\n[6] METAL");
 			int opt = lector.nextInt();
 			lector.nextLine();
 			if(opt >= 1 && opt <= 6){
-				musicCS.addSong(title,artistName,releaseData,duration,musicCS.genreSong(opt));
-				System.out.println("Cancion agregada correctamente");
+				String mens = musicCS.addSong(title,artistName,releaseData,duration,musicCS.genreSong(opt));
+				System.out.println(mens);
 				wait = false;
+				getOut = false;
 			}
 		}
     }
@@ -252,6 +271,7 @@ public class Main {
     		System.out.println("Introduzca el nombre de la PlayList");
     		namePlay = lector.nextLine();
     			musicCS.createPlay(namePlay);
+    			System.out.println("Playlist creada exitosamente");
 	    	}
 
     	else if(option == 2){
@@ -265,8 +285,9 @@ public class Main {
     			lector.nextLine();
     			if(num <= 5){
     				namesUser = new String [num];
-    				System.out.println("Introduzca el nombre de los usuarios que pueden acceder a "+namePlay);
+  					System.out.println("Introduzca el nombre de los usuarios que pueden acceder a "+namePlay);
 		    		for(int i = 0;i<num;i++){
+						System.out.println("Usuario "+(i+1));
 		    			nameUser = lector.nextLine();
 		    			if(!musicCS.findSpaces(nameUser)){
 		    				if(!musicCS.findUser(nameUser)){
@@ -283,7 +304,8 @@ public class Main {
 		    		    }
 		    		}
 		    		musicCS.createPlay(namePlay,namesUser);
-		    				exit = false;	
+		    		System.out.println("Playlist creada exitosamente");
+		    		exit = false;	
     			}
     			else{
     				System.out.println("No se pueden agregar mas de 5 usuarios a la Playlist");
@@ -300,7 +322,8 @@ public class Main {
     		for(int k = 0;wait;k++){
     			if(!musicCS.findSpaces(nameUser)){
     				if(!musicCS.findUser(nameUser)){
-    					musicCS.createPlay(namePlay,nameUser);
+    					String mess = musicCS.createPlay(namePlay,nameUser);
+    					System.out.println(mess);
     					wait = false;
     				}
     				else
@@ -313,8 +336,7 @@ public class Main {
     }
 
     public void addSongPlay(){
-    	boolean exit = true;
-    	int[] count = new int[10];
+    	boolean exit = true, stop = true, wait = true,getOut = true;
     	for(int i = 0;i<MCS.MAX_SONGS && exit;i++){
     		System.out.println("Ingrese el nombre de la PlayList donde va a agregar la cancion");
     		String namePlay = lector.nextLine();
@@ -324,95 +346,82 @@ public class Main {
     		else{
     			String mess = musicCS.choosePlay(namePlay);
     			if(mess.equals("Public")){
-	    			for(int k = 0;k<MAX_USERS;k++){
-	    				System.out.println("Ingrese el nombre del usuario que ingresara la cancion");
-		    			String nameUser = lector.nextLine();
-		    			if(musicCS.findUser(nameUser)){
-		    				System.out.println("El usuario NO existe");
-		    			}
-		    			else{
-			    			count = musicCS.contSongs(nameUser);
-				   			musicCS.addCategory(count);
-			    			System.out.println("Ingrese el nombre de la cancion");
-			    			String title = lector.nextLine();
-			    			if(musicCS.findSong(title)){
-			    				System.out.println("La cancion NO se encuentra en el pool de canciones");
-			    			}
-				    		else {
-				    			System.out.println("Ingrese el nombre del artista que interpreta la cancion");
-				   				String nameArtist = lector.nextLine();
-				   				if(musicCS.findArt(nameArtist)){
-				   					System.out.println("El artista NO interpreta "+title);
-				   				}
-			    				else{
-			    					String message = musicCS.addSongToPlay(namePlay,title,nameArtist);
-				   					System.out.println(message);
-				   					exit = false;
-				   				}
+	    			for(int k = 0;k<musicCS.MAX_USERS && stop;k++){
+			    		System.out.println("Ingrese el nombre de la cancion");
+			    		String title = lector.nextLine();
+			    		if(musicCS.findSong(title)){
+			    			System.out.println("La cancion NO se encuentra en el pool de canciones");
+			    		}
+				    	else {
+				    		System.out.println("Ingrese el nombre del artista que interpreta la cancion");
+				   			String nameArtist = lector.nextLine();
+				   			if(musicCS.findArt(nameArtist)){
+				   				System.out.println("El artista NO interpreta "+title);
 				   			}
-			   			}  
-	    			}
+			    			else{
+			    				String message = musicCS.addSongToPlay(namePlay,title,nameArtist);
+				   				System.out.println(message);
+				   				exit = false;
+				   				stop = false;
+				   			}
+				 		}
+			   		}  
 	    		}
 
-	    		else if(mess.equals("Restri")){
-	    			System.out.println("Ingrese el nombre del usuario que ingresara la cancion");
-		    		String nameUsers = lector.nextLine();
-		    		if(musicCS.usersReser(namePlay,nameUsers)){
-		    			System.out.println("El usuario NO tiene permiso para agregar canciones a la Playlist");
-		    		}
-		    		else {
-		    			count = musicCS.contSongs(nameUsers);
-			   			musicCS.addCategory(count);
-		    			System.out.println("Ingrese el nombre de la cancion");
-		    			String title = lector.nextLine();
-		    			if(musicCS.findSong(title)){
-		    				System.out.println("La cancion NO se encuentra en el pool de canciones");
-		    			}
-			    		else {
-			    			System.out.println("Ingrese el nombre del artista que interpreta la cancion");
-			   				String nameArtist = lector.nextLine();
-			   				if(musicCS.findArt(nameArtist)){
-			   					System.out.println("El artista NO interpreta "+title);
-			   				}
-		    				else{
-		    					String message = musicCS.addSongToPlay(namePlay,title,nameArtist);
-			   					System.out.println(message);
-			   					exit = false;
-			   				}
-			   			}
-		    		}
-	    		}
-
-	    		else if(mess.equals("Privada")){
-	    			System.out.println("Ingrese el del usuario que ingresara la cancion");
-		    		String nameUser = lector.nextLine();
-		    		if(musicCS.findPrivate(namePlay,nameUser)){
-		    			System.out.println("El usuario NO tiene permiso para agregar canciones a la Playlist");
-		    		}
-		    		else {
-		    			count = musicCS.contSongs(nameUser);
-			   			musicCS.addCategory(count);
-		    			System.out.println("Ingrese el nombre de la cancion");
-		    			String title = lector.nextLine();
-		    			if(musicCS.findSong(title)){
-		    				System.out.println("La cancion NO se encuentra en el pool de canciones");
-		    			}
-			    		else {
-			    			System.out.println("Ingrese el nombre del artista que interpreta la cancion");
-			   				String nameArtist = lector.nextLine();
-			   				if(musicCS.findArt(nameArtist)){
-			   					System.out.println("El artista NO interpreta "+title);
-			   				}
-		    				else{
-		    					String message = musicCS.addSongToPlay(namePlay,title,nameArtist);
-			   					System.out.println(message);
-			   					exit = false;
-			   				}
-			   			}
-		    		}
-	    		}
+		    	else if(mess.equals("Restri")){
+			    	for(int p = 0;p<musicCS.MAX_USERS && wait;p++){
+			    		System.out.println("Ingrese el nombre del usuario que ingresara la cancion");
+					   	String nameUsers = lector.nextLine();
+					   	if(musicCS.usersReser(namePlay,nameUsers)){
+					  		System.out.println("El usuario NO tiene permiso para agregar canciones a la Playlist");
+					   	}
+					   	else {
+					   		System.out.println("Ingrese el nombre de la cancion");
+					   		String title = lector.nextLine();
+					   		if(musicCS.findSong(title)){
+					   			System.out.println("La cancion NO se encuentra en el pool de canciones");
+					   		}
+					    	else {
+					    		System.out.println("Ingrese el nombre del artista que interpreta la cancion");
+					   			String nameArtist = lector.nextLine();
+					   			if(musicCS.findArt(nameArtist)){
+						 			System.out.println("El artista NO interpreta "+title);
+						   		}
+					    		else{
+					   				String message = musicCS.addSongToPlay(namePlay,title,nameArtist);
+				  					System.out.println(message);
+				   					exit = false;
+				  					wait = false;
+				   				}
+				  			}
+				   		}
+			   		}
+		   		}
+		    			
+		    	else if(mess.equals("Privada")){
+		    		for(int o = 0;o<musicCS.MAX_USERS && getOut;o++){
+				   		System.out.println("Ingrese el nombre de la cancion");
+				   		String title = lector.nextLine();
+				   		if(musicCS.findSong(title)){
+				   			System.out.println("La cancion NO se encuentra en el pool de canciones");
+				   		}
+				   		else {
+				   			System.out.println("Ingrese el nombre del artista que interpreta la cancion");
+				 			String nameArtist = lector.nextLine();
+				   			if(musicCS.findArt(nameArtist)){
+				   				System.out.println("El artista NO interpreta "+title);
+				   			}
+			    			else{
+			    				String message = musicCS.addSongToPlay(namePlay,title,nameArtist);
+				   				System.out.println(message);
+				   				exit = false;
+				   				getOut = false;
+		   					}
+		  				}
+		   			}
+		  		}
 	    	}
-   		}
+	    }
    	}
 
    	public void putCalification(){
@@ -437,5 +446,5 @@ public class Main {
    				System.out.println("Ingreso un numero NO valido");  		
    			} 
    		}
-   	}
+    }
 }

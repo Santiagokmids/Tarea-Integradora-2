@@ -48,6 +48,10 @@ public class PLAYLIST{
 		return genre;
 	}
 
+	public void setGenre(Genre genre[]){
+		this.genre = genre;
+	}
+
 
 
 

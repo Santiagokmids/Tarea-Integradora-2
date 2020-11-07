@@ -16,9 +16,7 @@ public class SONG{
 	public SONG(String title, String artistName,int releaseData[], int duration[], Genre genre){
 		this.title = title;
 		this.artistName = artistName;
-		releaseData = new int[3];
 		this.releaseData = releaseData;
-		duration = new int [2];
 		this.duration = duration;
 		this.genre = genre;
 	}
@@ -58,8 +56,6 @@ public class SONG{
 	public void setGenre(Genre genre){
 		this.genre = genre;
 	}
-
-
 
 
 

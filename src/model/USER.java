@@ -13,6 +13,7 @@ public class USER{
 	private String password;
 	private int age;
 	private Category category;
+	private int countSong;
 
 	//Methods
 	public USER(String userName, String password, int age){
@@ -20,6 +21,7 @@ public class USER{
 		this.password = password;
 		this.age = age;
 		category = Category.NEWBIE;
+		countSong = 0;
 	}
 
 	public String getUserName(){
@@ -52,6 +54,14 @@ public class USER{
 
 	public void setCategory(Category category){
 		this.category = category;
+	}
+
+	public int getCount(){
+		return countSong;
+	}
+
+	public void setCount(int countSong){
+		this.countSong = countSong;
 	}
 
 
