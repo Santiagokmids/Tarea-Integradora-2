@@ -10,7 +10,7 @@ public class Private extends PLAYLIST{
 		this.userPrivate = userPrivate;
 	}
 
-	public String getUserPrivate(){
+	public USER getUserPrivate(){
 		return userPrivate;
 	}
 }

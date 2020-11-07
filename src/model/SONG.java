@@ -8,17 +8,18 @@ public class SONG{
 	//Atributes
 	private String title;
 	private String artistName;
-	private String releaseData[3];
-	private int duration[2];
+	private int releaseData[];
+	private int duration[];
 	private Genre genre;
 
 	//Methods
-	public SONG(String title, String artistName,String releaseData[], int duration[], Genre genre){
+	public SONG(String title, String artistName,int releaseData[], int duration[], Genre genre){
 		this.title = title;
 		this.artistName = artistName;
+		releaseData = new int[3];
 		this.releaseData = releaseData;
+		duration = new int [2];
 		this.duration = duration;
-		genre = new Genre[7];
 		this.genre = genre;
 	}
 
@@ -46,8 +47,8 @@ public class SONG{
 		this.duration = duration;
 	}
 
-	public String[]getReleaseData(){
-		return releaseData[];
+	public int[]getReleaseData(){
+		return releaseData;
 	}
 
 	public Genre getGenre(){

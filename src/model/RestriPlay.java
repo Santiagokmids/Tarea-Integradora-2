@@ -3,15 +3,15 @@ package model;
 public class RestriPlay extends PLAYLIST{
 
 	//Atributes
-	private String userRes[];
+	private USER userRes[];
 
-	public RestriPlay(String name, String userRes[]){
+	public RestriPlay(String name, USER userRes[]){
 		super(name);
-		userRes = new String [5];
+		userRes = new USER [5];
 		this.userRes = userRes;
 	}
 
-	public String[] getUserRes(){
+	public USER[] getUserRes(){
 		return userRes;
 	}
 }

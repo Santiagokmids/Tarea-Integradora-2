@@ -1,5 +1,5 @@
 package model;
 
-public enum CATEGORY{
+public enum Category{
 	NEWBIE,LITTLE_CONTRIBUITOR,MILD_CONTRIBUITOR, STAR_CONTRIBUITOR;
 }

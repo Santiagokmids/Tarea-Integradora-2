@@ -12,18 +12,19 @@ public class PLAYLIST{
 	//Atributes
 	private String name;
 	private Genre[]genre;
-	private int duration[3];
+	private int[] duration;
 
 	//Methods
 	public PLAYLIST(String name){
 		this.name = name;
-		this.genre = Genre.DESCONOCIDO;
-		this.duration = [0,0,0];
-		this.songs = new SONG[50];
 		genre = new Genre[7];
+		genre[0] = Genre.DESCONOCIDO;
+		duration = new int [3];
+		duration[0] = 0; duration[1] = 0; duration[2] = 0;
+		songs = new SONG[50];
 	}
 
-	public Strin getName(){
+	public String getName(){
 		return name;
 	}
 

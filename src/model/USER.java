@@ -3,7 +3,7 @@ package model;
 public class USER{
 
 	//Relationships
-	private CATEGORY category;
+	private Category categories;
 
 	//Constant
 	public final static int USERS = 10;
@@ -12,14 +12,14 @@ public class USER{
 	private String userName;
 	private String password;
 	private int age;
-	private CATEGORY category;
+	private Category category;
 
 	//Methods
 	public USER(String userName, String password, int age){
 		this.userName = userName;
 		this.password = password;
 		this.age = age;
-		category = CATEGORY.NEWBIE;
+		category = Category.NEWBIE;
 	}
 
 	public String getUserName(){
@@ -46,11 +46,11 @@ public class USER{
 		this.age = age;
 	}
 
-	public CATEGORY getCategory(){
+	public Category getCategory(){
 		return category;
 	}
 
-	public void setCategory(CATEGORY category){
+	public void setCategory(Category category){
 		this.category = category;
 	}
 
