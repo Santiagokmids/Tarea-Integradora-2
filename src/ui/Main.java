@@ -305,8 +305,8 @@ public class Main {
     	if(option == 1){
     		System.out.println("Introduzca el nombre de la PlayList");
     		namePlay = lector.nextLine();
-    			musicCS.createPlay(namePlay);
-    			System.out.println("Playlist creada exitosamente");
+    			String publicPlay = musicCS.createPlay(namePlay);
+    			System.out.println(publicPlay);
 	    	}
 
     	else if(option == 2){
@@ -338,8 +338,8 @@ public class Main {
 			    			i--;
 		    		    }
 		    		}
-		    		musicCS.createPlay(namePlay,namesUser);
-		    		System.out.println("Playlist creada exitosamente");
+		    		String restric = musicCS.createPlay(namePlay,namesUser);
+		    		System.out.println(restric);
 		    		exit = false;	
     			}
     			else{
@@ -440,24 +440,31 @@ public class Main {
 		    			
 		    	else if(mess.equals("Privada")){
 		    		for(int o = 0;o<musicCS.MAX_USERS && getOut;o++){
-				   		System.out.println("Ingrese el nombre de la cancion");
-				   		String title = lector.nextLine();
-				   		if(musicCS.findSong(title)){
-				   			System.out.println("La cancion NO se encuentra en el pool de canciones");
-				   		}
-				   		else {
-				   			System.out.println("Ingrese el nombre del artista que interpreta la cancion");
-				 			String nameArtist = lector.nextLine();
-				   			if(musicCS.findArt(nameArtist)){
-				   				System.out.println("El artista NO interpreta "+title);
-				   			}
-			    			else{
-			    				String message = musicCS.addSongToPlay(namePlay,title,nameArtist);
-				   				System.out.println(message);
-				   				exit = false;
-				   				getOut = false;
-		   					}
-		  				}
+		    			System.out.println("Ingrese el nombre del usuario que ingresara la cancion");
+					   	String nameUsers = lector.nextLine();
+					   	if(musicCS.findPrivate(namePlay,nameUsers)){
+					  		System.out.println("El usuario NO es el propetario la Playlist");
+					   	}
+					   	else{
+					   		System.out.println("Ingrese el nombre de la cancion");
+					   		String title = lector.nextLine();
+					   		if(musicCS.findSong(title)){
+					   			System.out.println("La cancion NO se encuentra en el pool de canciones");
+					   		}
+					   		else {
+					   			System.out.println("Ingrese el nombre del artista que interpreta la cancion");
+					 			String nameArtist = lector.nextLine();
+					   			if(musicCS.findArt(nameArtist)){
+					   				System.out.println("El artista NO interpreta "+title);
+					   			}
+				    			else{
+				    				String message = musicCS.addSongToPlay(namePlay,title,nameArtist);
+					   				System.out.println(message);
+					   				exit = false;
+					   				getOut = false;
+			   					}
+			  				}
+					   	}
 		   			}
 		  		}
 	    	}

@@ -12,7 +12,6 @@ public class RestriPlay extends PLAYLIST{
    */
 	public RestriPlay(String name, USER userRes[]){
 		super(name);
-		userRes = new USER [5];
 		this.userRes = userRes;
 	}//End constructor
 

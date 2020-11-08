@@ -141,12 +141,12 @@ public class MCS{
 
 	 /** 
 		*Name: createPlay.
-		*Create to playlist privade <br> 
+		*Create to playlist private <br> 
 		*<b> post: </b> The playlist has been created.
 		*@return String message. This is the message if the private playlist was created.
 	   */
 	public String createPlay(String name,String nameUser){
-		String message = "La playlist ya existe";
+		String message = "";
 		boolean exit = true;
 		if (findPlay(name)){  
 	    	for(int i = 0;i<playList.length && exit;i++){
@@ -175,27 +175,26 @@ public class MCS{
 	   */
 	public String createPlay(String name,String userRes[]){
 		String message = "La playlist ya existe";
-		boolean exit = true;
+		boolean exit = true, stop = true;
 		if (findPlay(name)){  
 	    	for(int i = 0;i<user.length && exit;i++){
-	    		for (int l=0;l<userRes.length;l++) {
-	    			if(user[i] != null && user[i].getUserName().equalsIgnoreCase(userRes[i])){
-		    			for(int k = 0;k<playList.length;k++){
-		    				for(int o = 0;o<user.length;o++){
-		    					if(playList[k] == null){
-			    					USER[] countUser = new USER[userRes.length];
-			    					countUser[o] = user[i]; 
-			    					playList[k] = new RestriPlay(name,countUser);
-			    					exit = false;
-			    					message = "La playlist restringida ha sido creada correctamente";
-			    				}
-			    				else if(i == MAX_PLAYLIST){
-			    					message = "No tiene espacio para crear mas playList";
-			   					}
+	    		if(user[i] != null && user[i].getUserName().equalsIgnoreCase(userRes[i])){
+		    		for(int k = 0;k<playList.length && stop;k++){
+		    			for(int o = 0;o<userRes.length;o++){
+		    				if(playList[k] == null){
+		    					stop = false;
+		    					USER[] countUser = new USER[userRes.length];
+		    					countUser[o] = user[i]; 
+		    					playList[k] = new RestriPlay(name,countUser);
+		    					exit = false;
+		    					message = "La playlist restringida ha sido creada correctamente";
 		    				}
-		   				}
-		  			}	
-	    		}
+		    				else if(i == MAX_PLAYLIST){
+		    					message = "No tiene espacio para crear mas playList";
+		   					}
+	    				}
+	   				}
+	  			}	
 			}
 	    }	 	
 	    return message;
@@ -211,8 +210,8 @@ public class MCS{
 	public boolean findUser(String userName){
 		boolean find = true;
 	    	for(int i=0;i<user.length && find;i++){
-	    	 if(user[i] != null && user[i].getUserName().equalsIgnoreCase(userName)){
-	    		find = false;
+	    	 	if(user[i] != null && user[i].getUserName().equalsIgnoreCase(userName)){
+	    			find = false;
 	    	    }
 	        }
 	        return find;
@@ -356,7 +355,7 @@ public class MCS{
 				RestriPlay objRest = (RestriPlay)playList[i];
 				boolean stop = true;
 				for(int o = 0;o<MAX_GENRE;o++){
-					if(playList[i].getGenre()[o] != null && playList[i].getGenre()[o] != Genre.DESCONOCIDO){
+					if(playList[i].getGenre()[o] != null){
 						count1 += playList[i].getGenre()[o]+"-";
 					}
 				}
@@ -409,17 +408,22 @@ public class MCS{
 		*@return String name. This is the user names obtained of the restricted playlist.
 	   */
 	public String getUsersRes(){
-		String name = "No hay";
-		for(int i = 0; i<MAX_PLAYLIST;i++){
+		String name = "";
+		boolean exit = true;
+		for(int i = 0; i<MAX_PLAYLIST && exit;i++){
 			if(playList[i] != null && playList[i] instanceof RestriPlay){
 				RestriPlay objRest = (RestriPlay)playList[i];
-				for(int k = 0;k<5;k++){
+				for(int k = 0;k<5 && exit;k++){
 					for(int o = 0;o<MAX_USERS;o++){
 						if(user[o] != null && objRest.getUserRes()[k] == user[o]){
-							name = user[o].getUserName(); 
+							name += user[o].getUserName()+"-"; 
+							exit = false;
 						}
 					}
 				}
+			}
+			else if(playList[0] == null){
+				name = "No hay playList restringidas";
 			}
 		}
 		return name;
@@ -625,7 +629,7 @@ public class MCS{
 					 	if(user[k] != null && user[k].getUserName().equalsIgnoreCase(nameUser)){
 					 		if(objPri.getUserPrivate() == user[k]){
 								stop = false;
-								exit = true;
+								exit = false;
 							}
 					 	}
 					} 
