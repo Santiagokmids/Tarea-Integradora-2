@@ -129,7 +129,7 @@ public class MCS{
 	    		if (playList[i] == null){
 	    			playList[i] = new PublicPlay(name);
 	    			exit = false;
-	    			message = "La playlist ha sido creada correctamente";
+	    			message = "La playlist publica ha sido creada correctamente";
 	    		}
 	    		else if(i == MAX_PLAYLIST){
 	    			message = "No tiene espacio para crear mas playList";
@@ -155,7 +155,7 @@ public class MCS{
 	    				if(user[k] != null && user[k].getUserName().equalsIgnoreCase(nameUser)){
 	    					playList[i] = new Private(name,user[k]);
 	    					exit = false;
-	    					message = "La playlist ha sido creada correctamente";
+	    					message = "La playlist privada ha sido creada correctamente";
 	    				}
 	    				else if(i == MAX_PLAYLIST){
 	    					message = "No tiene espacio para crear mas playList";
@@ -187,7 +187,7 @@ public class MCS{
 			    					countUser[o] = user[i]; 
 			    					playList[k] = new RestriPlay(name,countUser);
 			    					exit = false;
-			    					message = "La playlist ha sido creada correctamente";
+			    					message = "La playlist restringida ha sido creada correctamente";
 			    				}
 			    				else if(i == MAX_PLAYLIST){
 			    					message = "No tiene espacio para crear mas playList";
@@ -335,7 +335,7 @@ public class MCS{
 		*@return String message. This is the message about the information of each playlist.
 	   */
 	public String showPlay(){
-		String message = "",count = "",count1 = "", count2 = "";
+		String message = "",count = "",count1 = "", count2 = "",name = "";
 		boolean exit = true;
 		for(int i = 0; i<playList.length && exit;i++){
 			if(playList[i] != null && playList[i] instanceof PublicPlay){
@@ -369,26 +369,34 @@ public class MCS{
 			}
 
 			else if(playList[i] != null && playList[i] instanceof Private){
-				System.out.println("mano");
 				Private objPri = (Private)playList[i];
 				for(int p = 0;p<MAX_GENRE;p++){
 					if(playList[i].getGenre()[p] != null){
 						count2 += playList[i].getGenre()[p]+"-";
 					}
 				}
+				for(int m = 0;m<MAX_USERS;m++){
+					if(user[m] != null){
+						if(objPri.getUserPrivate() == user[m]){
+							name = user[m].getUserName();
+						}
+					}
+				}
+				
 				message += "**************  Playlist **************"+
 				"\n  **  Title: "+playList[i].getName()+
 				"\n  **  Duration: "+durationPlay()+
 				"\n  **  Genre: "+count2+
-				"\n  **  Allowed user: "+objPri.getUserPrivate()+"\n";
+				"\n  **  Allowed user: "+name+"\n";
 			}
 
 			else if(MAX_PLAYLIST == MAX_PLAYLIST-1){
 				message += "No hay mas playList";
 				exit = false;
 			}
-			else 
+			else if(playList[0] == null){
 				message = "No hay Playlist";     
+			}
 		}
 	   return message;	
 	}//End show Playlist
@@ -685,10 +693,11 @@ public class MCS{
     		for(int i = 0;i<MAX_PLAYLIST && exit;i++){
     			if(!findPlay(namePlay) && playList[i] instanceof PublicPlay){
     				PublicPlay objPublic = (PublicPlay)playList[i];
-    				count = objPublic.getAverage();
+    				count = 1;
+    				count = objPublic.getAverage()+count;
     				objPublic.setAverage(count);	
-    				counter = calification;
-    				objPublic.setCalification(counter);
+    			    counter = calification/objPublic.getAverage();
+    			    objPublic.setCalification(counter);
     				message = "Calificacion agregada";
     				exit = false;
     			}

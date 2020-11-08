@@ -24,6 +24,11 @@ public class Main {
 	}
 
 		//Methods
+	 /** 
+		*Name: ShowIcon.
+		*Show the icon of the app <br> 
+		*<b> post: </b> The icon of the app in screen.
+	   */
 	public void showIcon(){
 
 		System.out.println("                    BIENVENIDO...                  ");
@@ -64,12 +69,22 @@ public class Main {
 		System.out.println("                          .........                    ");
         System.out.println("                                                       ");
 		System.out.println("      *************************************************");
-	}
+	}//End show Icon
 
+	 /** 
+		*Name: starApp.
+		*Start the app with the object of MCS <br> 
+		*<b> post: </b> The object of the MCS was created.
+	   */
 	public void startApp(){
 		musicCS = new MCS(MCS.MAX_USERS, MCS.MAX_PLAYLIST, MCS.MAX_SONGS);
-	}
+	}//End startApp
 
+	 /** 
+		*Name: Menu.
+		*Show the menu for choose one option <br> 
+		*<b> post: </b> The menu is started.
+	   */
 	public void Menu(){
 	   	 boolean stop = false;
 	   	 for(int l = 0;!stop;l++){
@@ -152,8 +167,13 @@ public class Main {
                 System.out.println("Ingreso un numero NO valido");
             }
 	    }
-	}
+	}//End Menu
 
+	 /** 
+		*Name: createUsr.
+		*Create to user for the app <br> 
+		*<b> post: </b> The user was created.
+	   */
     public void createUser(){
     	System.out.println("");
     	boolean stop = true;
@@ -172,8 +192,13 @@ public class Main {
 	    	else 
 	    		System.out.println("Ingreso un nombre NO valido, tiene espacios");
 	    }	
-    }
+    }//End createUser
 
+     /** 
+		*Name: createSong.
+		*Create a song for the songs pool <br> 
+		*<b> post: </b> The song was created.
+	   */
     public void createSong(){
     	System.out.println("");
     	int[] releaseData = new int[3]; 
@@ -241,8 +266,13 @@ public class Main {
 				getOut = false;
 			}
 		}
-    }
+    }//End of createdSong
 
+     /** 
+		*Name: menuPlaylist.
+		*Show the menu for choose a kind of playlist <br> 
+		*<b> post: </b> The playlist with their kind.
+	   */
     public int menuPlaylist(){
     	System.out.println("Que tipo de PlayList quiere crear?");
     	boolean exit = true;
@@ -262,8 +292,13 @@ public class Main {
 	    		exit = false;
 	    }
     	return opt;
-    }
+    }//End menuPlaylist
 
+    /** 
+		*Name: createPlaylist.
+		*Create the playlist of anyone kind <br> 
+		*<b> post: </b> The playlist was created.
+	   */
     public void createPlaylist(int option){
     	String namePlay ="",nameUser = "";
     	int num = 0;
@@ -333,8 +368,13 @@ public class Main {
 	    			System.out.println("Ingreso un nombre NO valido, tiene espacios");
     		}
     	}
-    }
+    }//End playlist
 
+    /** 
+		*Name: addSongPlay.
+		*Add songs to playlist <br> 
+		*<b> post: </b> The song has been added.
+	   */
     public void addSongPlay(){
     	boolean exit = true, stop = true, wait = true,getOut = true;
     	for(int i = 0;i<MCS.MAX_SONGS && exit;i++){
@@ -422,8 +462,13 @@ public class Main {
 		  		}
 	    	}
 	    }
-   	}
+   	}//End addSongPlay
 
+   	/** 
+		*Name: putCalification.
+		*Add calification to public playlist <br> 
+		*<b> post: </b> The calification has been added.
+	   */
    	public void putCalification(){
    		System.out.println("Introduzca la Playlist que va a Calificar");
    		String namePlay = lector.nextLine();
@@ -446,5 +491,6 @@ public class Main {
    				System.out.println("Ingreso un numero NO valido");  		
    			} 
    		}
-    }
-}
+    }//End put calification
+
+}//End class Main
